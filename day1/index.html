@@ -1,0 +1,71 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+    <style>
+        .background {
+            background-image: url("background.jpg");
+            width: 650px;
+            height: 400px;
+            position: absolute;
+            text-align: center;
+            }
+        
+        #display { 
+            color:white;  
+            font-size: 30px; 
+            font-weight: bold;             
+            text-align: center;
+            }
+                
+    </style>
+</head>
+
+<body> 
+    <script>
+     var div = document.createElement('div');
+     div.setAttribute('class','background');
+
+     var head = document.createElement('h2');
+     head.setAttribute('style','padding: 30px;font-size: 35px;text-align: center;color: white;');
+     head.innerText ='Random Number Generator';
+
+     var button = document.createElement('button');
+     button.setAttribute('style','align-items: center;');
+     button.setAttribute('onclick','cal([]);');
+     button.innerText='Generate';
+
+     var p = document.createElement('p');
+     p.setAttribute('id','display');
+
+     div.append(head,button,p);
+
+     document.body.append(div);
+      
+    function cal(number){
+        while(number.length <8)
+        {
+           var val= Math.random() * 10;
+           val=(Math.floor(val)%9);
+           if(val!=0 && !number.includes(val))
+           {
+               number.push(val);
+           }
+           cal(number);
+        }
+    document.getElementById('display').innerText=number.join('');
+    /*var min=10000000;
+    var max = 99999999;
+    document.getElementById("display").innerHTML=Math.floor(Math.random()*(max-min+1))+min;*/
+    }
+    </script>
+    
+</body>
+</html>
+
+
+ 
+  
+ 
