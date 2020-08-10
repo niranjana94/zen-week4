@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Number Generator</title>
+    <title>Age Calculator</title>
     <style>
         .background {
-            background-image: url("background.jpg");
-            width: 650px;
-            height: 400px;
+            background-color: plum;
+            width: 550px;
+            height: 300px;
             position: absolute;
             text-align: center;
+            border: 2px solid blue;
             }
         
-        #display { 
-            color:white;  
-            font-size: 30px; 
-            font-weight: bold;             
-            text-align: center;
+        #display {              
+            font-size: 15px;                          
+            text-align: center;           
+            
             }
                 
     </style>
@@ -25,47 +25,80 @@
 
 <body> 
     <script>
-     var div = document.createElement('div');
-     div.setAttribute('class','background');
+        var div = document.createElement('div');
+        div.setAttribute('class','background');
+   
+        var head = document.createElement('h2');        
+        head.innerText ='Age Calculator';
 
-     var head = document.createElement('h2');
-     head.setAttribute('style','padding: 30px;font-size: 35px;text-align: center;color: white;');
-     head.innerText ='Random Number Generator';
+        var label = document.createElement('label');
+        label.setAttribute('for','dob');
+        label.innerText="Date of Birth";
 
-     var button = document.createElement('button');
-     button.setAttribute('style','align-items: center;');
-     button.setAttribute('onclick','cal([]);');
-     button.innerText='Generate';
+        var input =document.createElement('input');
+        input.setAttribute('type','date');
+        input.setAttribute('name','dob');
+        input.setAttribute('id','dob');
+   
+        var linebreak = document.createElement('BR');
+        
 
-     var p = document.createElement('p');
-     p.setAttribute('id','display');
+        var button = document.createElement('button');        
+        button.setAttribute('onclick','calculateage();');
+        button.innerText='Calculate';
 
-     div.append(head,button,p);
+        let div2 = document.createElement('div');
+        div2.setAttribute('id', 'display');        
 
-     document.body.append(div);
-      
-    function cal(number){
-        while(number.length <8)
-        {
-           var val= Math.random() * 10;
-           val=(Math.floor(val)%9);
-           if(val!=0 && !number.includes(val))
-           {
-               number.push(val);
-           }
-           cal(number);
-        }
-    document.getElementById('display').innerText=number.join('');
-    /*var min=10000000;
-    var max = 99999999;
-    document.getElementById("display").innerHTML=Math.floor(Math.random()*(max-min+1))+min;*/
-    }
-    </script>
+        let days = document.createElement('div');
+        days.setAttribute('class', 'row');
+
+        let years = document.createElement('div');
+        years.setAttribute('class', 'row');
+
+        let months = document.createElement('div');
+        months.setAttribute('class', 'row');
+
+        let hours = document.createElement('div');
+        hours.setAttribute('class', 'row');
+
+        let minutes = document.createElement('div');
+        minutes.setAttribute('class', 'row');
+
+        let seconds = document.createElement('div');
+        seconds.setAttribute('class', 'row');
+
+        let milliseconds = document.createElement('div');
+        milliseconds.setAttribute('class', 'row');
+
+        div2.append(days,years,months,hours,minutes,seconds,milliseconds);
+
+        div.append(head,label,input,linebreak,button,div2);
+
+        document.body.append(div);
     
+
+  function calculateage() {
+   
+    var today = new Date();
+    var birthDate = new Date(input.value);
+    let millisecond =  today.getTime() - birthDate.getTime();  
+    let year = Math.floor(millisecond / (1000 * 3600 * 24 * 365));
+    let month  = year * 12; 
+    let day = Math.floor(millisecond / (1000 * 3600 * 24)); 
+    let hour = Math.floor(millisecond / (1000 * 3600));  
+    let minute = Math.floor(millisecond / (1000 * 60));
+    let second =   Math.floor(millisecond / 1000);   
+
+    years.innerText = 'Year - '+ year ; 
+    months.innerText = 'Month - ' + month ;  
+    days.innerHTML = 'Days - ' + day ;  
+    hours.innerHTML = 'Hours - ' + hour ;  
+    minutes.innerHTML = 'Minutes - ' + minute ;  
+    seconds.innerHTML = 'Seconds - ' + second ;  
+    milliseconds.innerHTML = 'Milliseconds - '+millisecond ;  
+  }
+      
+</script>
 </body>
 </html>
-
-
- 
-  
- 
