@@ -1,0 +1,205 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Pagination</title>   
+    <style>
+        .container
+        {
+            background-color: lightsteelblue;
+            text-align: center;
+        }
+        th, td, p {
+            font:15px 'Segoe UI';
+        }
+        table, th, td {
+            border: solid 1px #ddd;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+        button{
+            background-color:lightsteelblue;
+        }
+    </style> 
+</head>
+
+<body onload="load()"> 
+    <script src="script.js"></script>      
+    
+    <script>
+        var container = document.createElement('div');
+        container.setAttribute('class',container);
+
+        var para = document.createElement('p');
+        para.setAttribute('id','showData');
+
+        container.append(para);
+
+        var div1 = document.createElement('div');   
+        var table = document.createElement('table');  
+
+        var thead = document.createElement('thead');
+        var tr = document.createElement('tr');
+        var th1 = document.createElement('th');
+        th1.innerText='Id';
+        var th2 = document.createElement('th');
+        th2.innerText='Name';
+        var th3 = document.createElement('th');
+        th3.innerText='Email';
+        tr.append(th1,th2,th3);
+        thead.append(tr);             
+           
+        var tbody = document.createElement('tbody');
+        tbody.setAttribute('id','valbody');
+        table.append(thead,tbody);
+        div1.appendChild(table);
+        document.body.append(div1); 
+
+        var div = document.createElement('div');        
+
+        var btn1 = document.createElement('button');
+        btn1.setAttribute('onclick', "first()");
+        btn1.setAttribute('id', "first");
+        btn1.innerText = "First";        
+
+        var btn2 = document.createElement('button');
+        btn2.setAttribute('onclick', "prev()");
+        btn2.setAttribute('id', "prev");
+        btn2.innerText = "Previous";
+        
+        var btn3 = document.createElement('button');
+        btn3.setAttribute('onclick', "next()");
+        btn3.setAttribute('id', "next");
+        btn3.innerText = "Next";        
+
+        var btn4 = document.createElement('button');
+        btn4.setAttribute('onclick', "last()");
+        btn4.setAttribute('id', "last");
+        btn4.innerText = "End";
+
+        div.append(btn1,btn2,btn3,btn4);
+        container.append(div);    
+        document.body.append(container);
+
+           
+
+        var act = 0;
+        var recPerPage = 10;
+        var arr = [];
+        var totalPages;
+
+        function loadbody(){
+            let count = act*recPerPage;
+            var tbody = document.createElement('tbody');
+            arr.forEach((item)=>{
+                item.children[0].innerText = data[count].id;
+                item.children[1].innerText = data[count].name;
+                item.children[2].innerText = data[count].email;
+                count++;               
+                tbody.append(item);
+            });
+
+            
+            let old = document.getElementsByTagName('tbody');            
+            table.replaceChild(tbody, old[0]);
+            if(act == 0){
+                document.getElementById('prev').disabled = true;
+                document.getElementById('next').disabled = false;
+            }
+            else if(act == totalPages-1){
+                document.getElementById('prev').disabled = false;
+                document.getElementById('next').disabled = true;
+            }
+            else{
+                document.getElementById('prev').disabled = false;
+                document.getElementById('next').disabled = false;
+            }
+        }
+        
+        /*var col = [];
+        for (var i = 0; i < data.length; i++) {
+            for (var key in data[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+    
+        
+        var table = document.createElement("table");    
+       
+        var tr = table.insertRow(-1);                 
+    
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th");     
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }    
+        
+       
+        for (var i = 0; i < data.length; i++) {
+    
+            tr = table.insertRow(-1);
+    
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = data[i][col[j]];
+            }
+        }
+
+        var divShowData = document.getElementById('showData');
+        divShowData.innerHTML = "";
+        divShowData.appendChild(table);    */
+
+
+        function createRow(){
+            var tr = document.createElement("tr");
+            var td1 = document.createElement('td');
+            var td2 = document.createElement('td');
+            var td3 = document.createElement('td');
+            tr.append(td1, td2, td3);
+            return tr;
+        }
+        function load(){
+            totalPages = Math.floor(data.length/recPerPage);
+            arr = [];
+            for(let i=0;i<recPerPage;i++){
+                arr.push(createRow());
+            }
+            loadbody();
+        }
+
+        function next(){
+            act++;
+            loadbody();
+        }
+
+        function prev(){
+            act--;
+            loadbody();
+        }
+
+        function first(){
+            act = 0;
+            loadbody();
+        }
+
+        function last(){
+            act = totalPages-1;
+            loadbody();
+        }
+
+    
+    
+</script>
+    
+</body>
+</html>
+
+
+
